@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildSmart — PC Gaming Bilanciati</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --surface: #111116;
+    --surface2: #18181f;
+    --border: #2a2a35;
+    --accent-a: #00e5b0;
+    --accent-b: #ff6b35;
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --low: #00e5b0;
+    --high: #ff6b35;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(0,229,176,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: 0.08em;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent-a) 0%, #00b89a 50%, var(--accent-b) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tagline {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* FILTERS */
+  .controls {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 2.5rem auto 0;
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .filter-group {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .filter-btn {
+    padding: 0.65rem 1.4rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .filter-btn:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; bottom: 20%;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .filter-btn:hover { color: var(--text); }
+
+  .filter-btn.active {
+    background: var(--surface2);
+    color: var(--accent-a);
+  }
+
+  .filter-btn.budget-high.active { color: var(--accent-b); }
+
+  .compare-btn {
+    padding: 0.65rem 1.6rem;
+    background: transparent;
+    border: 1px solid var(--accent-a);
+    color: var(--accent-a);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .compare-btn:hover {
+    background: var(--accent-a);
+    color: var(--bg);
+  }
+
+  .compare-btn.has-items {
+    background: var(--accent-a);
+    color: var(--bg);
+    animation: pulse-glow 2s infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,229,176,0.3); }
+    50% { box-shadow: 0 0 0 6px rgba(0,229,176,0); }
+  }
+
+  /* BUILDS GRID */
+  .grid {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .build-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+    position: relative;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .build-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent-a);
+    box-shadow: 0 8px 40px rgba(0,229,176,0.08);
+  }
+
+  .build-card.tier-high:hover {
+    border-color: var(--accent-b);
+    box-shadow: 0 8px 40px rgba(255,107,53,0.08);
+  }
+
+  .build-card.selected {
+    border-color: var(--accent-a);
+    box-shadow: 0 0 0 2px rgba(0,229,176,0.25);
+  }
+
+  .build-card.tier-high.selected {
+    border-color: var(--accent-b);
+    box-shadow: 0 0 0 2px rgba(255,107,53,0.25);
+  }
+
+  .build-card.hidden {
+    display: none;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .build-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+
+  .tier-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3rem 0.7rem;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .tier-low .tier-badge {
+    background: rgba(0,229,176,0.12);
+    color: var(--accent-a);
+    border: 1px solid rgba(0,229,176,0.3);
+  }
+
+  .tier-high .tier-badge {
+    background: rgba(255,107,53,0.12);
+    color: var(--accent-b);
+    border: 1px solid rgba(255,107,53,0.3);
+  }
+
+  .price-block {
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+  }
+
+  .tier-low .price { color: var(--accent-a); }
+  .tier-high .price { color: var(--accent-b); }
+
+  .price-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .components {
+    padding: 1rem 1.5rem;
+  }
+
+  .component-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 1rem;
+  }
+
+  .component-row:last-child { border-bottom: none; }
+
+  .comp-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+
+  .comp-value {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    text-align: right;
+  }
+
+  /* PERFORMANCE BARS */
+  .perf-section {
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .perf-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .perf-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .perf-game {
+    font-size: 0.78rem;
+    color: var(--muted);
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  .perf-bar-bg {
+    flex: 1;
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .perf-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+  }
+
+  .tier-low .perf-bar-fill { background: var(--accent-a); }
+  .tier-high .perf-bar-fill { background: var(--accent-b); }
+
+  .perf-fps {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text);
+    width: 55px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* SELECT CHECKBOX */
+  .select-row {
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-top: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .select-check {
+    width: 16px; height: 16px;
+    accent-color: var(--accent-a);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .select-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  /* COMPARE MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  .modal-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+  }
+
+  .modal-overlay.visible .modal {
+    transform: translateY(0);
+  }
+
+  .modal-head {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.06em;
+    color: var(--accent-a);
+  }
+
+  .modal-close {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    width: 36px; height: 36px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .modal-close:hover { border-color: var(--text); color: var(--text); }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .compare-table th, .compare-table td {
+    padding: 0.85rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .compare-table th:first-child { width: 130px; }
+
+  .compare-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    background: var(--surface2);
+  }
+
+  .compare-table .row-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .compare-table .build-header-cell {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+  }
+
+  .compare-table tr:hover td { background: rgba(255,255,255,0.015); }
+
+  .winner { color: var(--accent-a); font-weight: 600; }
+  .winner-high { color: var(--accent-b); font-weight: 600; }
+
+  /* EMPTY STATE */
+  .empty-compare {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  footer span { color: var(--accent-a); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">BuildSmart</div>
+  <p class="tagline">Configurazioni PC Gaming — Prezzo Bilanciato &amp; Alte Prestazioni</p>
+</header>
+
+<div class="controls">
+  <div class="filter-group">
+    <button class="filter-btn active" data-filter="all">Tutte</button>
+    <button class="filter-btn" data-filter="low">€400–€600</button>
+    <button class="filter-btn budget-high" data-filter="high">€600–€900</button>
+  </div>
+  <button class="compare-btn" id="compareBtn">Confronta (0)</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- COMPARE MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title">Confronto Build</div>
+      <button class="modal-close" id="modalClose">✕</button>
+    </div>
+    <div id="compareContent"></div>
+  </div>
+</div>
+
+<footer>
+  I prezzi sono indicativi — aggiornati a <span>Maggio 2025</span>. Verifica disponibilità su Amazon, Unieuro, MediaWorld.
+</footer>
+
+<script>
+const builds = [
+  {
+    id: 1,
+    name: "Starter Boost",
+    tier: "low",
+    price: 449,
+    badge: "€400–€600",
+    components: {
+      CPU: "AMD Ryzen 5 5600",
+      GPU: "RX 6600 8GB",
+      RAM: "16GB DDR4 3200",
+      Storage: "SSD 500GB NVMe",
+      Mobo: "B550M Pro",
+      PSU: "550W 80+ Bronze",
+    },
+    perf: [
+      { game: "Fortnite", fps: 120, max: 200 },
+      { game: "GTA V", fps: 90, max: 200 },
+      { game: "Valorant", fps: 180, max: 200 },
+      { game: "Elden Ring", fps: 55, max: 120 },
+    ],
+    score: 68
+  },
+  {
+    id: 2,
+    name: "Smart Play",
+    tier: "low",
+    price: 499,
+    badge: "€400–€600",
+    components: {
+      CPU: "Intel Core i5-12400F",
+      GPU: "RTX 3060 12GB",
+      RAM: "16GB DDR4 3200",
+      Storage: "SSD 500GB NVMe",
+      Mobo: "B660M DS3H",
+      PSU: "600W 80+ Bronze",
+    },
+    perf: [
+      { game: "Fortnite", fps: 140, max: 200 },
+      { game: "GTA V", fps: 100, max: 200 },
+      { game: "Valorant", fps: 200, max: 200 },
+      { game: "Elden Ring", fps: 60, max: 120 },
+    ],
+    score: 75
+  },
+  {
+    id: 3,
+    name: "Value King",
+    tier: "low",
+    price: 579,
+    badge: "€400–€600",
+    components: {
+      CPU: "AMD Ryzen 5 5600X",
+      GPU: "RTX 3060 Ti 8GB",
+      RAM: "16GB DDR4 3600",
+      Storage: "SSD 1TB NVMe",
+      Mobo: "B550 Steel Legend",
+      PSU: "650W 80+ Gold",
+    },
+    perf: [
+      { game: "Fortnite", fps: 160, max: 200 },
+      { game: "GTA V", fps: 110, max: 200 },
+      { game: "Valorant", fps: 200, max: 200 },
+      { game: "Elden Ring", fps: 70, max: 120 },
+    ],
+    score: 82
+  },
+  {
+    id: 4,
+    name: "Mid Crusher",
+    tier: "high",
+    price: 649,
+    badge: "€600–€900",
+    components: {
+      CPU: "Intel Core i5-13600K",
+      GPU: "RTX 4060 8GB",
+      RAM: "16GB DDR5 4800",
+      Storage: "SSD 1TB NVMe",
+      Mobo: "Z690 Pro",
+      PSU: "650W 80+ Gold",
+    },
+    perf: [
+      { game: "Fortnite", fps: 180, max: 200 },
+      { game: "GTA V", fps: 130, max: 200 },
+      { game: "Valorant", fps: 200, max: 200 },
+      { game: "Elden Ring", fps: 85, max: 120 },
+    ],
+    score: 88
+  },
+  {
+    id: 5,
+    name: "Power Flex",
+    tier: "high",
+    price: 749,
+    badge: "€600–€900",
+    components: {
+      CPU: "AMD Ryzen 7 5700X",
+      GPU: "RX 7600 8GB",
+      RAM: "32GB DDR4 3600",
+      Storage: "SSD 1TB NVMe",
+      Mobo: "B550 Tomahawk",
+      PSU: "700W 80+ Gold",
+    },
+    perf: [
+      { game: "Fortnite", fps: 175, max: 200 },
+      { game: "GTA V", fps: 135, max: 200 },
+      { game: "Valorant", fps: 200, max: 200 },
+      { game: "Elden Ring", fps: 90, max: 120 },
+    ],
+    score: 85
+  },
+  {
+    id: 6,
+    name: "Peak Balance",
+    tier: "high",
+    price: 849,
+    badge: "€600–€900",
+    components: {
+      CPU: "Intel Core i5-13600K",
+      GPU: "RTX 4060 Ti 8GB",
+      RAM: "32GB DDR5 5200",
+      Storage: "SSD 1TB NVMe Gen4",
+      Mobo: "Z790 Pro",
+      PSU: "750W 80+ Gold",
+    },
+    perf: [
+      { game: "Fortnite", fps: 200, max: 200 },
+      { game: "GTA V", fps: 155, max: 200 },
+      { game: "Valorant", fps: 200, max: 200 },
+      { game: "Elden Ring", fps: 110, max: 120 },
+    ],
+    score: 94
+  },
+];
+
+let selectedIds = new Set();
+let activeFilter = 'all';
+
+function renderCards() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  builds.forEach((b, i) => {
+    const card = document.createElement('div');
+    card.className = `build-card tier-${b.tier}${selectedIds.has(b.id) ? ' selected' : ''}${(activeFilter !== 'all' && activeFilter !== b.tier) ? ' hidden' : ''}`;
+    card.style.animationDelay = `${i * 0.06}s`;
+
+    const perfBars = b.perf.map(p => `
+      <div class="perf-bar-wrap">
+        <span class="perf-game">${p.game}</span>
+        <div class="perf-bar-bg">
+          <div class="perf-bar-fill" style="width:${(p.fps/p.max)*100}%"></div>
+        </div>
+        <span class="perf-fps">${p.fps >= p.max ? '200+' : p.fps} fps</span>
+      </div>
+    `).join('');
+
+    const rows = Object.entries(b.components).map(([k,v]) => `
+      <div class="component-row">
+        <span class="comp-label">${k}</span>
+        <span class="comp-value">${v}</span>
+      </div>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="card-header">
+        <div class="build-name">${b.name}</div>
+        <div class="tier-badge">${b.badge}</div>
+      </div>
+      <div class="price-block">
+        <span class="price">€${b.price}</span>
+        <span class="price-label">circa</span>
+      </div>
+      <div class="components">${rows}</div>
+      <div class="perf-section">
+        <div class="perf-title">FPS Stimati — 1080p Ultra</div>
+        ${perfBars}
+      </div>
+      <div class="select-row">
+        <input type="checkbox" class="select-check" id="chk${b.id}" ${selectedIds.has(b.id) ? 'checked' : ''}>
+        <label class="select-label" for="chk${b.id}">Aggiungi al confronto</label>
+      </div>
+    `;
+
+    card.querySelector('.select-check').addEventListener('change', (e) => {
+      if (e.target.checked) selectedIds.add(b.id);
+      else selectedIds.delete(b.id);
+      updateCompareBtn();
+      card.classList.toggle('selected', selectedIds.has(b.id));
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+function updateCompareBtn() {
+  const btn = document.getElementById('compareBtn');
+  btn.textContent = `Confronta (${selectedIds.size})`;
+  btn.classList.toggle('has-items', selectedIds.size > 0);
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.filter;
+    renderCards();
+  });
+});
+
+document.getElementById('compareBtn').addEventListener('click', () => {
+  if (selectedIds.size === 0) return;
+  showModal();
+});
+
+document.getElementById('modalClose').addEventListener('click', () => {
+  document.getElementById('modalOverlay').classList.remove('visible');
+});
+
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove('visible');
+});
+
+function showModal() {
+  const selected = builds.filter(b => selectedIds.has(b.id));
+  const content = document.getElementById('compareContent');
+
+  if (selected.length === 0) {
+    content.innerHTML = '<div class="empty-compare">Seleziona almeno una build per confrontare.</div>';
+  } else {
+    const allKeys = ['CPU','GPU','RAM','Storage','Mobo','PSU'];
+    const gameList = builds[0].perf.map(p => p.game);
+
+    // find best price
+    const minPrice = Math.min(...selected.map(b => b.price));
+    // find best score
+    const maxScore = Math.max(...selected.map(b => b.score));
+
+    let html = `<table class="compare-table">
+      <thead><tr>
+        <th>Componente</th>
+        ${selected.map(b => `<th><div class="build-header-cell">${b.name}</div></th>`).join('')}
+      </tr></thead>
+      <tbody>
+      <tr>
+        <td class="row-label">Prezzo</td>
+        ${selected.map(b => `<td class="${b.price === minPrice ? 'winner' : ''}">${b.price === minPrice ? '✓ ' : ''}€${b.price}</td>`).join('')}
+      </tr>
+      <tr>
+        <td class="row-label">Fascia</td>
+        ${selected.map(b => `<td>${b.badge}</td>`).join('')}
+      </tr>`;
+
+    allKeys.forEach(k => {
+      html += `<tr><td class="row-label">${k}</td>${selected.map(b => `<td>${b.components[k]}</td>`).join('')}</tr>`;
+    });
+
+    gameList.forEach(game => {
+      const fpsArr = selected.map(b => b.perf.find(p => p.game === game)?.fps ?? 0);
+      const maxFps = Math.max(...fpsArr);
+      html += `<tr>
+        <td class="row-label">${game} fps</td>
+        ${selected.map((b, i) => {
+          const fps = fpsArr[i];
+          const isWinner = fps === maxFps;
+          const cls = isWinner ? (b.tier === 'high' ? 'winner-high' : 'winner') : '';
+          return `<td class="${cls}">${isWinner ? '↑ ' : ''}${fps >= 200 ? '200+' : fps}</td>`;
+        }).join('')}
+      </tr>`;
+    });
+
+    html += `<tr>
+      <td class="row-label">Score</td>
+      ${selected.map(b => `<td class="${b.score === maxScore ? (b.tier === 'high' ? 'winner-high' : 'winner') : ''}">${b.score === maxScore ? '★ ' : ''}${b.score}/100</td>`).join('')}
+    </tr>`;
+
+    html += '</tbody></table>';
+    content.innerHTML = html;
+  }
+
+  document.getElementById('modalOverlay').classList.add('visible');
+}
+
+renderCards();
+</script>
+</body>
+</html>
