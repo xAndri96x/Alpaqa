@@ -7,13 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0a0c;
-    --surface: #111116;
-    --surface2: #18181f;
-    --border: #2a2a35;
-    --accent-a: #00e5b0;
-    --text: #e8e8f0;
-    --muted: #6b6b80;
+    --bg: #f5c800;
+    --surface: #e8b800;
+    --surface2: #d4a800;
+    --border: #c49a00;
+    --accent-a: #1a3a8f;
+    --accent-dark: #0f2566;
+    --text: #0f2566;
+    --muted: #4a6abf;
+    --card-bg: #f5c800;
+    --card-border: #c49a00;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -29,22 +32,25 @@
     align-items: center;
   }
 
+  /* subtle dot pattern like GBC texture */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+    background-size: 18px 18px;
     pointer-events: none;
     z-index: 0;
   }
 
+  /* HEADER */
   header {
     position: relative;
     z-index: 1;
     padding: 4rem 2rem 3rem;
     text-align: center;
     width: 100%;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--card-border);
     overflow: hidden;
   }
 
@@ -54,7 +60,7 @@
     top: -60px; left: 50%;
     transform: translateX(-50%);
     width: 600px; height: 300px;
-    background: radial-gradient(ellipse, rgba(0,229,176,0.08) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(26,58,143,0.08) 0%, transparent 70%);
     pointer-events: none;
   }
 
@@ -63,41 +69,65 @@
     font-size: clamp(3.5rem, 10vw, 7rem);
     letter-spacing: 0.1em;
     line-height: 1;
-    background: linear-gradient(135deg, var(--accent-a) 0%, #00b89a 60%, #00e5b0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--accent-a);
   }
 
   .tagline {
     margin-top: 0.75rem;
-    color: var(--muted);
+    color: var(--accent-a);
     font-size: 0.95rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
+    opacity: 0.75;
   }
+
+  /* NAV */
+  nav {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-bottom: 2px solid var(--card-border);
+    background: var(--surface);
+  }
+
+  .nav-btn {
+    padding: 0.9rem 2rem;
+    background: none;
+    border: none;
+    border-right: 1px solid var(--card-border);
+    color: var(--accent-a);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    opacity: 0.7;
+  }
+
+  .nav-btn:last-child { border-right: none; }
+  .nav-btn:hover { background: var(--surface2); opacity: 1; }
+  .nav-btn.active { background: var(--accent-a); color: var(--bg); opacity: 1; }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
 
   /* MAIN CONTENT */
   .main {
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 520px;
+    max-width: 560px;
     padding: 3rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
-  }
-
-  /* CARD */
-  .build-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    animation: fadeUp 0.5s ease both;
   }
 
   @keyframes fadeUp {
@@ -105,16 +135,25 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* CARD BASE */
+  .card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 6px;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+
   .card-header {
     padding: 1.75rem 2rem 1.5rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--card-border);
     text-align: center;
-    background: linear-gradient(180deg, rgba(0,229,176,0.04) 0%, transparent 100%);
+    background: linear-gradient(180deg, rgba(26,58,143,0.05) 0%, transparent 100%);
   }
 
   .build-name {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     letter-spacing: 0.1em;
     color: var(--accent-a);
     line-height: 1;
@@ -126,21 +165,22 @@
     color: var(--muted);
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    font-weight: 600;
   }
 
   .price-row {
     padding: 1.1rem 2rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--card-border);
     display: flex;
     align-items: baseline;
     justify-content: center;
     gap: 0.5rem;
-    background: rgba(0,229,176,0.03);
+    background: rgba(26,58,143,0.05);
   }
 
   .price {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.6rem;
+    font-size: 2.8rem;
     letter-spacing: 0.06em;
     color: var(--accent-a);
   }
@@ -150,7 +190,7 @@
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .components {
@@ -162,7 +202,7 @@
     justify-content: space-between;
     align-items: baseline;
     padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(26,58,143,0.1);
     gap: 1rem;
   }
 
@@ -179,15 +219,16 @@
 
   .comp-value {
     font-size: 0.88rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text);
     text-align: right;
   }
 
+  /* PERFORMANCE */
   .perf-section {
     padding: 1.25rem 2rem 1.75rem;
-    border-top: 1px solid var(--border);
-    background: var(--surface2);
+    border-top: 2px solid var(--card-border);
+    background: rgba(26,58,143,0.04);
   }
 
   .perf-title {
@@ -197,6 +238,7 @@
     text-transform: uppercase;
     letter-spacing: 0.12em;
     margin-bottom: 1rem;
+    font-weight: 700;
   }
 
   .perf-bar-wrap {
@@ -210,17 +252,19 @@
 
   .perf-game {
     font-size: 0.8rem;
-    color: var(--muted);
+    color: var(--text);
+    font-weight: 600;
     width: 85px;
     flex-shrink: 0;
   }
 
   .perf-bar-bg {
     flex: 1;
-    height: 5px;
-    background: rgba(255,255,255,0.06);
+    height: 6px;
+    background: rgba(26,58,143,0.12);
     border-radius: 3px;
     overflow: hidden;
+    border: 1px solid rgba(26,58,143,0.15);
   }
 
   .perf-bar-fill {
@@ -231,61 +275,140 @@
     animation-delay: 0.3s;
   }
 
-  @keyframes growBar {
-    from { width: 0 !important; }
-  }
+  @keyframes growBar { from { width: 0 !important; } }
 
   .perf-fps {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
-    color: var(--text);
+    color: var(--accent-a);
+    font-weight: 700;
     width: 55px;
     text-align: right;
     flex-shrink: 0;
   }
 
-  /* PERKS */
-  .perks-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-    animation: fadeUp 0.5s ease 0.15s both;
+  /* SPECS COLLAPSIBLE */
+  .specs-toggle {
+    width: 100%;
+    padding: 1.1rem 2rem;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s;
+    font-weight: 700;
   }
 
-  .perks-header {
+  .specs-toggle:hover { color: var(--accent-a); }
+
+  .specs-arrow { font-size: 0.6rem; transition: transform 0.3s; }
+
+  .specs-body {
+    display: none;
+    padding: 0 2rem 1rem;
+    border-top: 1px solid rgba(26,58,143,0.15);
+  }
+
+  .specs-body.open { display: block; }
+
+  /* MEDIA SECTION */
+  .media-title {
     padding: 1.25rem 2rem;
-    border-bottom: 1px solid var(--border);
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.4rem;
     letter-spacing: 0.08em;
     color: var(--accent-a);
+    border-bottom: 2px solid var(--card-border);
   }
 
-  .perks-list {
-    padding: 0.5rem 0;
+  .media-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
   }
+
+  .media-item {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border-right: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+    cursor: pointer;
+  }
+
+  .media-item:nth-child(even) { border-right: none; }
+  .media-item:nth-last-child(-n+2) { border-bottom: none; }
+
+  .media-item img, .media-item iframe {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .media-item .game-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.4rem 0.7rem;
+    background: linear-gradient(transparent, rgba(15,37,102,0.85));
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .media-placeholder {
+    width: 100%; height: 100%;
+    background: rgba(26,58,143,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .media-placeholder span { font-size: 1.8rem; }
+
+  /* PERKS */
+  .section-title {
+    padding: 1.25rem 2rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    color: var(--accent-a);
+    border-bottom: 2px solid var(--card-border);
+  }
+
+  .perks-list { padding: 0.5rem 0; background: var(--surface); }
 
   .perk-item {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
     padding: 1rem 2rem;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(26,58,143,0.08);
   }
 
   .perk-item:last-child { border-bottom: none; }
 
-  .perk-icon {
-    font-size: 1.3rem;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
+  .perk-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
 
   .perk-text strong {
     display: block;
     font-size: 0.92rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text);
     margin-bottom: 0.2rem;
   }
@@ -296,24 +419,69 @@
     line-height: 1.5;
   }
 
-  /* CONTACT */
-  .contact-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+  /* FAQ */
+  .faq-list { padding: 0.5rem 0; }
+
+  .faq-item {
+    border-bottom: 1px solid rgba(26,58,143,0.1);
+  }
+
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    transition: color 0.2s;
+  }
+
+  .faq-question:hover { color: var(--accent-a); }
+  .faq-arrow { font-size: 0.6rem; transition: transform 0.3s; flex-shrink: 0; }
+
+  .faq-answer {
+    display: none;
+    padding: 0 2rem 1rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .faq-answer.open { display: block; }
+
+  /* CHI SIAMO */
+  .about-body {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* -------------------------------------------------------
+     MODIFICA QUI — CHI SIAMO: sostituisci il testo tra i tag
+     <p class="about-placeholder"> con la tua descrizione
+  ------------------------------------------------------- */
+  .about-placeholder {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding: 1rem;
+    border: 1px dashed var(--card-border);
     border-radius: 4px;
-    overflow: hidden;
-    animation: fadeUp 0.5s ease 0.3s both;
+    background: rgba(26,58,143,0.03);
   }
 
-  .contact-header {
-    padding: 1.25rem 2rem;
-    border-bottom: 1px solid var(--border);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 0.08em;
-    color: var(--accent-a);
-  }
-
+  /* CONTACT */
   .contact-body {
     padding: 1.5rem 2rem;
     display: flex;
@@ -323,9 +491,9 @@
 
   .contact-body input,
   .contact-body textarea {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 3px;
+    background: #fff;
+    border: 2px solid var(--card-border);
+    border-radius: 4px;
     padding: 0.75rem 1rem;
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
@@ -343,21 +511,21 @@
   .contact-body textarea:focus { border-color: var(--accent-a); }
 
   .send-btn {
-    padding: 0.85rem;
+    padding: 0.9rem;
     background: var(--accent-a);
     color: var(--bg);
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-weight: 800;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
     transition: opacity 0.2s, transform 0.15s;
   }
 
-  .send-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .send-btn:hover { opacity: 0.9; transform: translateY(-1px); }
   .send-btn:active { transform: translateY(0); }
 
   .success-msg {
@@ -366,26 +534,28 @@
     color: var(--accent-a);
     font-size: 0.88rem;
     padding: 0.5rem 0;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   footer {
     position: relative;
     z-index: 1;
     width: 100%;
-    border-top: 1px solid var(--border);
+    border-top: 2px solid var(--card-border);
     padding: 1.75rem 2rem;
     text-align: center;
     color: var(--muted);
     font-size: 0.78rem;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    background: var(--surface);
   }
 
   footer span { color: var(--accent-a); }
 
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb { background: var(--accent-a); border-radius: 3px; opacity: 0.5; }
 </style>
 </head>
 <body>
@@ -395,53 +565,35 @@
   <p class="tagline">La console per giocare — semplice, potente, tua</p>
 </header>
 
+<nav>
+  <button class="nav-btn active" onclick="showPage('home')">Console</button>
+  <button class="nav-btn" onclick="showPage('about')">Chi Siamo</button>
+  <button class="nav-btn" onclick="showPage('faq')">FAQ</button>
+  <button class="nav-btn" onclick="showPage('contact')">Acquista</button>
+</nav>
+
+<!-- ======================== HOME ======================== -->
+<div class="page active" id="page-home">
 <div class="main">
 
   <!-- BUILD CARD -->
-  <div class="build-card">
+  <div class="card" style="animation-delay:0s">
     <div class="card-header">
       <div class="build-name">Alpaqa Uno</div>
       <div class="build-subtitle">Console Gaming</div>
     </div>
-
     <div class="price-row">
       <span class="price">599€</span>
       <span class="price-label">prezzo di riferimento</span>
     </div>
-
     <div class="components">
       <div class="component-row">
-        <span class="comp-label">CPU</span>
-        <span class="comp-value">AMD Ryzen 5</span>
-      </div>
-      <div class="component-row">
-        <span class="comp-label">GPU</span>
-        <span class="comp-value">RX 7600 8GB</span>
-      </div>
-      <div class="component-row">
-        <span class="comp-label">MOBO</span>
-        <span class="comp-value">A520M</span>
-      </div>
-      <div class="component-row">
         <span class="comp-label">Storage</span>
-        <span class="comp-value">SSD 1TB NVMe</span>
-      </div>
-      <div class="component-row">
-        <span class="comp-label">PSU</span>
-        <span class="comp-value">550W</span>
-      </div>
-      <div class="component-row">
-        <span class="comp-label">Case</span>
-        <span class="comp-value">Generic</span>
-      </div>
-      <div class="component-row">
-        <span class="comp-label">OS</span>
-        <span class="comp-value">Bazzite (se vuoi ci installi Windows)</span>
+        <span class="comp-value">SSD 1TB</span>
       </div>
     </div>
-
     <div class="perf-section">
-      <div class="perf-title">FPS Stimati</div>
+      <div class="perf-title">FPS Stimati — Ultra Settings</div>
       <div class="perf-bar-wrap">
         <span class="perf-game">Fortnite</span>
         <div class="perf-bar-bg"><div class="perf-bar-fill" style="width:85%"></div></div>
@@ -463,46 +615,210 @@
         <span class="perf-fps">80+ fps</span>
       </div>
     </div>
+    <!-- SPECS COLLAPSIBLE -->
+    <button class="specs-toggle" onclick="toggleSpecs()">
+      <span>Specifiche tecniche</span>
+      <span class="specs-arrow" id="specsArrow">▼</span>
+    </button>
+    <div class="specs-body" id="specsBody">
+      <div class="component-row">
+        <span class="comp-label">CPU</span>
+        <span class="comp-value">AMD Ryzen 5 4500</span>
+      </div>
+      <div class="component-row">
+        <span class="comp-label">GPU</span>
+        <span class="comp-value">RX 7600 8GB</span>
+      </div>
+      <div class="component-row">
+        <span class="comp-label">RAM</span>
+        <span class="comp-value">16GB DDR4</span>
+      </div>
+      <div class="component-row">
+        <span class="comp-label">OS</span>
+        <span class="comp-value">Bazzite (o Windows su richiesta)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIA GRID -->
+  <div class="card" style="animation-delay:0.1s">
+    <div class="media-title">In azione</div>
+    <div class="media-grid">
+      <!-- -------------------------------------------------------
+           MODIFICA QUI — IMMAGINI/VIDEO GIOCHI
+           Sostituisci ogni <div class="media-placeholder"> con:
+           - Un'immagine: <img src="URL_IMMAGINE" alt="Nome gioco">
+           - Un video YouTube embed: <iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+           Cambia anche il testo del game-label con il nome del gioco
+      ------------------------------------------------------- -->
+      <div class="media-item">
+        <div class="media-placeholder"><span>🎮</span>Immagine gioco 1</div>
+        <div class="game-label">Fortnite</div>
+      </div>
+      <div class="media-item">
+        <div class="media-placeholder"><span>🎮</span>Immagine gioco 2</div>
+        <div class="game-label">GTA V</div>
+      </div>
+      <div class="media-item">
+        <div class="media-placeholder"><span>🎮</span>Immagine gioco 3</div>
+        <div class="game-label">Valorant</div>
+      </div>
+      <div class="media-item">
+        <div class="media-placeholder"><span>🎮</span>Immagine gioco 4</div>
+        <div class="game-label">Elden Ring</div>
+      </div>
+    </div>
   </div>
 
   <!-- PERKS -->
-  <div class="perks-card">
-    <div class="perks-header">Perché Alpaqa?</div>
+  <div class="card" style="animation-delay:0.2s">
+    <div class="section-title">Perché Alpaqa?</div>
     <div class="perks-list">
       <div class="perk-item">
         <div class="perk-icon">🎮</div>
         <div class="perk-text">
           <strong>Qualsiasi controller, subito</strong>
-          <p>Qualsiasi controller. Gioca come preferisci.</p>
+          <p>PS5, Xbox, Switch Pro, controller generici — si collegano e funzionano senza configurazioni.</p>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon">🌐</div>
         <div class="perk-text">
           <strong>Online gratis, per sempre</strong>
-          <p>Niente abbonamenti mensili per giocare online. Zero. Non come altre console. Con Alpaqa, il multiplayer è incluso.</p>
+          <p>Niente abbonamenti mensili per giocare online. Zero. Con Alpaqa, il multiplayer è incluso.</p>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon">🔓</div>
         <div class="perk-text">
           <strong>Libertà totale</strong>
-          <p>Installa quello che vuoi, usa qualsiasi store. Nessun ecosistema chiuso, nessuna restrizione. È tua e la usi come vuoi.</p>
+          <p>Installa quello che vuoi, usa qualsiasi store. Nessun ecosistema chiuso. È tua e la usi come vuoi.</p>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon">⚡</div>
         <div class="perk-text">
           <strong>Potente da far funzionare tutto</strong>
-          <p>Hardware equilibrato in grado di far giocare a qualsiasi gioco senza problemi.</p>
+          <p>Hardware equilibrato in grado di far girare qualsiasi gioco senza problemi.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- CONTACT -->
-  <div class="contact-card">
-    <div class="contact-header">Acquista Alpaqa Uno</div>
+</div>
+</div>
+
+<!-- ======================== CHI SIAMO ======================== -->
+<div class="page" id="page-about">
+<div class="main">
+  <div class="card" style="animation-delay:0s">
+    <div class="section-title">Chi Siamo</div>
+    <div class="about-body">
+      <!-- -------------------------------------------------------
+           MODIFICA QUI — CHI SIAMO
+           Sostituisci questo testo con la tua storia/presentazione.
+           Puoi usare più tag <p class="about-placeholder"> per
+           separare i paragrafi.
+      ------------------------------------------------------- -->
+      <p class="about-placeholder">
+        [Scrivi qui chi sei e cosa fa Alpaqa — es: chi assembla le console, dove siete basati, la vostra missione, ecc.]
+      </p>
+      <p class="about-placeholder">
+        [Secondo paragrafo — es: tempi di consegna, come funziona l'ordine, garanzia offerta.]
+      </p>
+      <p class="about-placeholder">
+        [Terzo paragrafo opzionale — es: contatti social, community, supporto post-vendita.]
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== FAQ ======================== -->
+<div class="page" id="page-faq">
+<div class="main">
+  <div class="card" style="animation-delay:0s">
+    <div class="section-title">Domande Frequenti</div>
+    <div class="faq-list">
+
+      <!-- -------------------------------------------------------
+           MODIFICA QUI — FAQ
+           Per aggiungere/modificare domande:
+           - Cambia il testo dentro .faq-question (prima del <span>)
+           - Cambia il testo dentro .faq-answer
+           - Copia un intero blocco .faq-item per aggiungerne altre
+      ------------------------------------------------------- -->
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Cosa include il prezzo di 599€?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          [Scrivi qui cosa è incluso nel prezzo — es: hardware, montaggio, sistema operativo preinstallato, spedizione, ecc.]
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Quanto tempo ci vuole per ricevere la console?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          [Scrivi qui i tempi di consegna/spedizione.]
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Che garanzia offrite?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          [Scrivi qui le condizioni di garanzia.]
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Posso installare Windows invece di Bazzite?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          [Scrivi qui la risposta — es: sì, su richiesta, con o senza costo aggiuntivo.]
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Funziona con il mio controller?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          Alpaqa è compatibile con qualsiasi controller USB o Bluetooth: PS5, Xbox, Switch Pro, controller generici. Si collega e funziona immediatamente, senza configurazioni.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Devo pagare per giocare online?
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          No. Il multiplayer online è completamente gratuito su Alpaqa. Non è richiesto nessun abbonamento mensile per giocare con altri giocatori.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ======================== ACQUISTA ======================== -->
+<div class="page" id="page-contact">
+<div class="main">
+  <div class="card" style="animation-delay:0s">
+    <div class="section-title">Acquista Alpaqa Uno</div>
     <div class="contact-body">
       <input type="text" id="contactName" placeholder="Il tuo nome" />
       <input type="email" id="contactEmail" placeholder="La tua email (per la risposta)" />
@@ -511,7 +827,7 @@
       <div class="success-msg" id="successMsg">✓ Richiesta inviata! Ti risponderemo presto.</div>
     </div>
   </div>
-
+</div>
 </div>
 
 <footer>
@@ -519,6 +835,35 @@
 </footer>
 
 <script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    event.target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleSpecs() {
+    const body = document.getElementById('specsBody');
+    const arrow = document.getElementById('specsArrow');
+    body.classList.toggle('open');
+    arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+  }
+
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const arrow = btn.querySelector('.faq-arrow');
+    const isOpen = answer.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-arrow').forEach(a => a.style.transform = '');
+    // open clicked if it was closed
+    if (!isOpen) {
+      answer.classList.add('open');
+      arrow.style.transform = 'rotate(180deg)';
+    }
+  }
+
   // -------------------------------------------------------
   // MODIFICA QUI: inserisci la tua email tra le virgolette
   const CONTACT_EMAIL = "andres96@live.it";
@@ -528,19 +873,10 @@
     const name    = document.getElementById('contactName').value.trim();
     const replyTo = document.getElementById('contactEmail').value.trim();
     const msg     = document.getElementById('contactMsg').value.trim();
-
-    if (!name || !msg) {
-      alert('Inserisci almeno il tuo nome e un messaggio.');
-      return;
-    }
-
-    const subject = encodeURIComponent(`Richiesta Alpaqa One — ${name}`);
-    const body    = encodeURIComponent(
-      `Nome: ${name}\nEmail di risposta: ${replyTo || '(non fornita)'}\n\nMessaggio:\n${msg}`
-    );
-
+    if (!name || !msg) { alert('Inserisci almeno il tuo nome e un messaggio.'); return; }
+    const subject = encodeURIComponent(`Richiesta Alpaqa Uno — ${name}`);
+    const body    = encodeURIComponent(`Nome: ${name}\nEmail di risposta: ${replyTo || '(non fornita)'}\n\nMessaggio:\n${msg}`);
     window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-
     document.getElementById('successMsg').style.display = 'block';
   }
 </script>
