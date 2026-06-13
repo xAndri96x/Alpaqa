@@ -848,19 +848,53 @@
   }
 
   // -------------------------------------------------------
-  // MODIFICA QUI: inserisci la tua email tra le virgolette
-  const CONTACT_EMAIL = "andres96@live.it";
+  // MODIFICA QUI: incolla il tuo endpoint Formspree tra le virgolette
+  // es. "https://formspree.io/f/xyzabc12"
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnjyolgl";
   // -------------------------------------------------------
 
-  function sendEmail() {
+  async function sendEmail() {
     const name    = document.getElementById('contactName').value.trim();
     const replyTo = document.getElementById('contactEmail').value.trim();
     const msg     = document.getElementById('contactMsg').value.trim();
-    if (!name || !msg) { alert('Inserisci almeno il tuo nome e un messaggio.'); return; }
-    const subject = encodeURIComponent(`Richiesta Alpaqa Uno — ${name}`);
-    const body    = encodeURIComponent(`Nome: ${name}\nEmail di risposta: ${replyTo || '(non fornita)'}\n\nMessaggio:\n${msg}`);
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    document.getElementById('successMsg').style.display = 'block';
+
+    if (!name || !msg) {
+      alert('Inserisci almeno il tuo nome e un messaggio.');
+      return;
+    }
+
+    if (!FORMSPREE_ENDPOINT) {
+      alert('Endpoint Formspree non configurato.');
+      return;
+    }
+
+    const btn = document.querySelector('.send-btn');
+    btn.textContent = 'Invio in corso...';
+    btn.disabled = true;
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, email: replyTo, message: msg })
+      });
+
+      if (response.ok) {
+        document.getElementById('successMsg').style.display = 'block';
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactMsg').value = '';
+        btn.textContent = '✓ Inviato';
+      } else {
+        alert('Errore nell\'invio. Riprova più tardi.');
+        btn.textContent = 'Invia Richiesta';
+        btn.disabled = false;
+      }
+    } catch (e) {
+      alert('Errore di connessione. Controlla la tua rete.');
+      btn.textContent = 'Invia Richiesta';
+      btn.disabled = false;
+    }
   }
 </script>
 </body>
