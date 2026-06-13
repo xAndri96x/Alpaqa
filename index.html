@@ -32,7 +32,6 @@
     align-items: center;
   }
 
-  /* subtle dot pattern like GBC texture */
   body::before {
     content: '';
     position: fixed;
@@ -43,11 +42,10 @@
     z-index: 0;
   }
 
-  /* HEADER */
   header {
     position: relative;
     z-index: 1;
-    padding: 4rem 2rem 3rem;
+    padding: 3rem 2rem 2rem;
     text-align: center;
     width: 100%;
     border-bottom: 2px solid var(--card-border);
@@ -64,16 +62,8 @@
     pointer-events: none;
   }
 
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3.5rem, 10vw, 7rem);
-    letter-spacing: 0.1em;
-    line-height: 1;
-    color: var(--accent-a);
-  }
-
   .tagline {
-    margin-top: 0.75rem;
+    margin-top: 0.5rem;
     color: var(--accent-a);
     font-size: 0.95rem;
     letter-spacing: 0.14em;
@@ -81,6 +71,30 @@
     font-weight: 600;
     opacity: 0.75;
   }
+
+  /* LANG SELECTOR */
+  .lang-wrap {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+  }
+
+  .lang-select {
+    background: var(--accent-a);
+    color: var(--bg);
+    border: none;
+    border-radius: 4px;
+    padding: 0.4rem 0.7rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    outline: none;
+  }
+
+  .lang-select option { background: var(--accent-a); color: var(--bg); }
 
   /* NAV */
   nav {
@@ -118,11 +132,9 @@
   .nav-btn:hover { background: var(--surface2); opacity: 1; }
   .nav-btn.active { background: var(--accent-a); color: var(--bg); opacity: 1; }
 
-  /* PAGES */
   .page { display: none; }
   .page.active { display: block; }
 
-  /* MAIN CONTENT */
   .main {
     position: relative;
     z-index: 1;
@@ -139,7 +151,6 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* CARD BASE */
   .card {
     background: var(--card-bg);
     border: 2px solid var(--card-border);
@@ -197,9 +208,7 @@
     font-weight: 600;
   }
 
-  .components {
-    padding: 1.25rem 2rem;
-  }
+  .components { padding: 1.25rem 2rem; }
 
   .component-row {
     display: flex;
@@ -228,7 +237,6 @@
     text-align: right;
   }
 
-  /* PERFORMANCE */
   .perf-section {
     padding: 1.25rem 2rem 1.75rem;
     border-top: 2px solid var(--card-border);
@@ -291,7 +299,6 @@
     flex-shrink: 0;
   }
 
-  /* SPECS COLLAPSIBLE */
   .specs-toggle {
     width: 100%;
     padding: 1.1rem 2rem;
@@ -311,7 +318,6 @@
   }
 
   .specs-toggle:hover { color: var(--accent-a); }
-
   .specs-arrow { font-size: 0.6rem; transition: transform 0.3s; }
 
   .specs-body {
@@ -322,7 +328,6 @@
 
   .specs-body.open { display: block; }
 
-  /* MEDIA SECTION */
   .media-title {
     padding: 1.25rem 2rem;
     font-family: 'Bebas Neue', sans-serif;
@@ -344,15 +349,13 @@
     overflow: hidden;
     border-right: 1px solid var(--card-border);
     border-bottom: 1px solid var(--card-border);
-    cursor: pointer;
   }
 
   .media-item:nth-child(even) { border-right: none; }
   .media-item:nth-last-child(-n+2) { border-bottom: none; }
 
-  .media-item img, .media-item iframe {
+  .media-item iframe {
     width: 100%; height: 100%;
-    object-fit: cover;
     display: block;
   }
 
@@ -368,24 +371,6 @@
     text-transform: uppercase;
   }
 
-  .media-placeholder {
-    width: 100%; height: 100%;
-    background: rgba(26,58,143,0.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    color: var(--muted);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .media-placeholder span { font-size: 1.8rem; }
-
-  /* PERKS */
   .section-title {
     padding: 1.25rem 2rem;
     font-family: 'Bebas Neue', sans-serif;
@@ -406,7 +391,6 @@
   }
 
   .perk-item:last-child { border-bottom: none; }
-
   .perk-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
 
   .perk-text strong {
@@ -417,19 +401,10 @@
     margin-bottom: 0.2rem;
   }
 
-  .perk-text p {
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
+  .perk-text p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 
-  /* FAQ */
   .faq-list { padding: 0.5rem 0; }
-
-  .faq-item {
-    border-bottom: 1px solid rgba(26,58,143,0.1);
-  }
-
+  .faq-item { border-bottom: 1px solid rgba(26,58,143,0.1); }
   .faq-item:last-child { border-bottom: none; }
 
   .faq-question {
@@ -463,7 +438,6 @@
 
   .faq-answer.open { display: block; }
 
-  /* CHI SIAMO */
   .about-body {
     padding: 1.5rem 2rem;
     display: flex;
@@ -471,10 +445,6 @@
     gap: 1.25rem;
   }
 
-  /* -------------------------------------------------------
-     MODIFICA QUI — CHI SIAMO: sostituisci il testo tra i tag
-     <p class="about-placeholder"> con la tua descrizione
-  ------------------------------------------------------- */
   .about-placeholder {
     font-size: 0.88rem;
     color: var(--muted);
@@ -485,7 +455,6 @@
     background: rgba(26,58,143,0.03);
   }
 
-  /* CONTACT */
   .contact-body {
     padding: 1.5rem 2rem;
     display: flex;
@@ -559,39 +528,45 @@
 
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--accent-a); border-radius: 3px; opacity: 0.5; }
+  ::-webkit-scrollbar-thumb { background: var(--accent-a); border-radius: 3px; }
 </style>
 </head>
 <body>
 
 <header>
+  <div class="lang-wrap">
+    <select class="lang-select" onchange="setLang(this.value)">
+      <option value="it">🇮🇹 Italiano</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+    </select>
+  </div>
   <img src="LogoAlpaqa.png" alt="Alpaqa" style="height: clamp(140px, 28vw, 260px); width: auto; display: block; margin: 0 auto;">
-  <p class="tagline">La console per giocare — semplice, potente, tua</p>
+  <p class="tagline" data-i18n="tagline"></p>
 </header>
 
 <nav>
-  <button class="nav-btn active" onclick="showPage('home')">Console</button>
-  <button class="nav-btn" onclick="showPage('about')">Chi Siamo</button>
-  <button class="nav-btn" onclick="showPage('faq')">FAQ</button>
-  <button class="nav-btn" onclick="showPage('contact')">Acquista</button>
+  <button class="nav-btn active" onclick="showPage('home')" data-i18n="nav_home"></button>
+  <button class="nav-btn" onclick="showPage('about')" data-i18n="nav_about"></button>
+  <button class="nav-btn" onclick="showPage('faq')" data-i18n="nav_faq"></button>
+  <button class="nav-btn" onclick="showPage('contact')" data-i18n="nav_buy"></button>
 </nav>
 
 <!-- ======================== HOME ======================== -->
 <div class="page active" id="page-home">
 <div class="main">
 
-  <!-- BUILD CARD -->
   <div class="card" style="animation-delay:0s">
     <div class="card-header">
       <div class="build-name">Alpaqa Uno</div>
-      <div class="build-subtitle">Console Gaming</div>
+      <div class="build-subtitle" data-i18n="console_gaming"></div>
     </div>
     <div style="overflow:hidden; border-bottom: 2px solid var(--card-border);">
       <img src="ConsoleAlpaqaLight.png" alt="Alpaqa Uno" style="width:100%; display:block; object-fit:contain; background:#f5c800;">
     </div>
     <div class="price-row">
       <span class="price">599€</span>
-      <span class="price-label">prezzo di riferimento</span>
+      <span class="price-label" data-i18n="ref_price"></span>
     </div>
     <div class="components">
       <div class="component-row">
@@ -600,7 +575,7 @@
       </div>
     </div>
     <div class="perf-section">
-      <div class="perf-title">FPS Stimati — High Settings</div>
+      <div class="perf-title" data-i18n="fps_title"></div>
       <div class="perf-bar-wrap">
         <span class="perf-game">Fortnite</span>
         <div class="perf-bar-bg"><div class="perf-bar-fill" style="width:65%"></div></div>
@@ -622,9 +597,8 @@
         <span class="perf-fps">~60 fps</span>
       </div>
     </div>
-    <!-- SPECS COLLAPSIBLE -->
     <button class="specs-toggle" onclick="toggleSpecs()">
-      <span>Specifiche tecniche</span>
+      <span data-i18n="tech_specs"></span>
       <span class="specs-arrow" id="specsArrow">▼</span>
     </button>
     <div class="specs-body" id="specsBody">
@@ -643,9 +617,8 @@
     </div>
   </div>
 
-  <!-- MEDIA GRID -->
   <div class="card" style="animation-delay:0.1s">
-    <div class="media-title">In azione</div>
+    <div class="media-title" data-i18n="in_action"></div>
     <div class="media-grid">
       <div class="media-item">
         <iframe src="https://www.youtube.com/embed/b0MysfV9U1c" frameborder="0" allowfullscreen></iframe>
@@ -666,36 +639,35 @@
     </div>
   </div>
 
-  <!-- PERKS -->
   <div class="card" style="animation-delay:0.2s">
-    <div class="section-title">Perché Alpaqa?</div>
+    <div class="section-title" data-i18n="why_alpaqa"></div>
     <div class="perks-list">
       <div class="perk-item">
         <div class="perk-icon">🎮</div>
         <div class="perk-text">
-          <strong>Qualsiasi controller</strong>
-          <p>Colleghi il tuo controller preferito e funziona, senza configurazioni.</p>
+          <strong data-i18n="perk1_title"></strong>
+          <p data-i18n="perk1_desc"></p>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon">🌐</div>
         <div class="perk-text">
-          <strong>Online gratis</strong>
-          <p>Niente abbonamenti mensili per giocare online. Zero. Con Alpaqa, il multiplayer è incluso.</p>
+          <strong data-i18n="perk2_title"></strong>
+          <p data-i18n="perk2_desc"></p>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon">🔓</div>
         <div class="perk-text">
-          <strong>Libertà totale</strong>
-          <p>Installa quello che vuoi, usa qualsiasi store. Nessun ecosistema chiuso. È tua e la usi come vuoi.</p>
+          <strong data-i18n="perk3_title"></strong>
+          <p data-i18n="perk3_desc"></p>
         </div>
       </div>
       <div class="perk-item">
         <div class="perk-icon">⚡</div>
         <div class="perk-text">
-          <strong>Potente da far funzionare tutto</strong>
-          <p>Hardware equilibrato in grado di far girare qualsiasi gioco senza problemi.</p>
+          <strong data-i18n="perk4_title"></strong>
+          <p data-i18n="perk4_desc"></p>
         </div>
       </div>
     </div>
@@ -708,30 +680,11 @@
 <div class="page" id="page-about">
 <div class="main">
   <div class="card" style="animation-delay:0s">
-    <div class="section-title">Chi Siamo</div>
+    <div class="section-title" data-i18n="nav_about"></div>
     <div class="about-body">
-      <!-- -------------------------------------------------------
-           MODIFICA QUI — CHI SIAMO
-           Sostituisci questo testo con la tua storia/presentazione.
-           Puoi usare più tag <p class="about-placeholder"> per
-           separare i paragrafi.
-      ------------------------------------------------------- -->
-      <p class="about-placeholder">
-        Siamo degli appassionati di videogiochi con pochi soldi, che vogliono solo divertirsi, senza complicazioni, senza abbonamenti o servizi extra. Facciamo console in cui l'unico obiettivo è giocare a tutto.
-      </p>
-      <p class="about-placeholder">
-        I tempi di consegna richiedono circa 2-3 settimane in quanto ogni unità viene assemblata solo in seguito all'ordine ricevuto. È possibile procedere con l'ordine nella sezione "ACQUISTA".
-      </p>
-      <p class="about-placeholder">
-        Seguici sui social network:
-        <br><br>
-        <!-- MODIFICA QUI: sostituisci il # con il link del tuo canale -->
-        <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">YouTube</a>
-        <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">Instagram</a>
-        <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">Facebook</a>
-        <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">X</a>
-        <a href="#" style="color:var(--accent-a);font-weight:700;text-decoration:none;">LinkedIn</a>
-      </p>
+      <p class="about-placeholder" data-i18n="about_p1"></p>
+      <p class="about-placeholder" data-i18n="about_p2"></p>
+      <p class="about-placeholder" id="about-social"></p>
     </div>
   </div>
 </div>
@@ -741,57 +694,36 @@
 <div class="page" id="page-faq">
 <div class="main">
   <div class="card" style="animation-delay:0s">
-    <div class="section-title">Domande Frequenti</div>
+    <div class="section-title" data-i18n="nav_faq"></div>
     <div class="faq-list">
-
-      <!-- -------------------------------------------------------
-           MODIFICA QUI — FAQ
-           Per aggiungere/modificare domande:
-           - Cambia il testo dentro .faq-question (prima del <span>)
-           - Cambia il testo dentro .faq-answer
-           - Copia un intero blocco .faq-item per aggiungerne altre
-      ------------------------------------------------------- -->
-
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Cosa include il prezzo di 599€?
+          <span data-i18n="faq1_q"></span>
           <span class="faq-arrow">▼</span>
         </button>
-        <div class="faq-answer">
-          È inclusa la console, il cavo di alimentazione ed un Joystick.
-        </div>
+        <div class="faq-answer" data-i18n="faq1_a"></div>
       </div>
-
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Quanto tempo ci vuole per ricevere la console?
+          <span data-i18n="faq2_q"></span>
           <span class="faq-arrow">▼</span>
         </button>
-        <div class="faq-answer">
-          I tempi di consegna richiedono circa 2-3 settimane in quanto ogni unità viene assemblata solo in seguito all'ordine ricevuto.
-        </div>
+        <div class="faq-answer" data-i18n="faq2_a"></div>
       </div>
-
-<div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Funziona con il mio controller?
-          <span class="faq-arrow">▼</span>
-        </button>
-        <div class="faq-answer">
-          Alpaqa è compatibile con qualsiasi controller USB o Bluetooth. Si collega e funziona immediatamente, senza configurazioni.
-        </div>
-      </div>
-
       <div class="faq-item">
         <button class="faq-question" onclick="toggleFaq(this)">
-          Devo pagare per giocare online?
+          <span data-i18n="faq3_q"></span>
           <span class="faq-arrow">▼</span>
         </button>
-        <div class="faq-answer">
-          No. Il multiplayer online è completamente gratuito su Alpaqa. Non è richiesto nessun abbonamento mensile per giocare con altri giocatori.
-        </div>
+        <div class="faq-answer" data-i18n="faq3_a"></div>
       </div>
-
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span data-i18n="faq4_q"></span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-answer" data-i18n="faq4_a"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -801,13 +733,13 @@
 <div class="page" id="page-contact">
 <div class="main">
   <div class="card" style="animation-delay:0s">
-    <div class="section-title">Acquista Alpaqa Uno</div>
+    <div class="section-title" data-i18n="buy_title"></div>
     <div class="contact-body">
-      <input type="text" id="contactName" placeholder="Il tuo nome" />
-      <input type="email" id="contactEmail" placeholder="La tua email (per la risposta)" />
-      <textarea id="contactMsg" rows="4" placeholder="Scrivi qui la tua richiesta o qualsiasi domanda..."></textarea>
-      <button class="send-btn" onclick="sendEmail()">Invia Richiesta</button>
-      <div class="success-msg" id="successMsg">✓ Richiesta inviata! Ti risponderemo presto.</div>
+      <input type="text" id="contactName" data-i18n-placeholder="placeholder_name" />
+      <input type="email" id="contactEmail" data-i18n-placeholder="placeholder_email" />
+      <textarea id="contactMsg" rows="4" data-i18n-placeholder="placeholder_msg"></textarea>
+      <button class="send-btn" onclick="sendEmail()" data-i18n="send_btn"></button>
+      <div class="success-msg" id="successMsg" data-i18n="success_msg"></div>
     </div>
   </div>
 </div>
@@ -818,84 +750,242 @@
 </footer>
 
 <script>
-  function showPage(name) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('page-' + name).classList.add('active');
-    event.target.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+const i18n = {
+  it: {
+    tagline: "La console per giocare — semplice, potente, tua",
+    nav_home: "Console",
+    nav_about: "Chi Siamo",
+    nav_faq: "FAQ",
+    nav_buy: "Acquista",
+    console_gaming: "Console Gaming",
+    ref_price: "prezzo di riferimento",
+    fps_title: "FPS Stimati — High Settings",
+    tech_specs: "Specifiche tecniche",
+    in_action: "In azione",
+    why_alpaqa: "Perché Alpaqa?",
+    perk1_title: "Qualsiasi controller",
+    perk1_desc: "Colleghi il tuo controller preferito e funziona, senza configurazioni.",
+    perk2_title: "Online gratis",
+    perk2_desc: "Niente abbonamenti mensili per giocare online. Zero. Con Alpaqa, il multiplayer è incluso.",
+    perk3_title: "Libertà totale",
+    perk3_desc: "Installa quello che vuoi, usa qualsiasi store. Nessun ecosistema chiuso. È tua e la usi come vuoi.",
+    perk4_title: "Potente da far funzionare tutto",
+    perk4_desc: "Hardware equilibrato in grado di far girare qualsiasi gioco senza problemi.",
+    about_p1: "Siamo degli appassionati di videogiochi con pochi soldi, che vogliono solo divertirsi, senza complicazioni, senza abbonamenti o servizi extra. Facciamo console in cui l'unico obiettivo è giocare a tutto.",
+    about_p2: "I tempi di consegna richiedono circa 2-3 settimane in quanto ogni unità viene assemblata solo in seguito all'ordine ricevuto. È possibile procedere con l'ordine nella sezione \"ACQUISTA\".",
+    about_social: "Seguici sui social network:",
+    faq1_q: "Cosa include il prezzo di 599€?",
+    faq1_a: "È inclusa la console, il cavo di alimentazione ed un Joystick.",
+    faq2_q: "Quanto tempo ci vuole per ricevere la console?",
+    faq2_a: "I tempi di consegna richiedono circa 2-3 settimane in quanto ogni unità viene assemblata solo in seguito all'ordine ricevuto.",
+    faq3_q: "Funziona con il mio controller?",
+    faq3_a: "Alpaqa è compatibile con qualsiasi controller USB o Bluetooth. Si collega e funziona immediatamente, senza configurazioni.",
+    faq4_q: "Devo pagare per giocare online?",
+    faq4_a: "No. Il multiplayer online è completamente gratuito su Alpaqa. Non è richiesto nessun abbonamento mensile per giocare con altri giocatori.",
+    buy_title: "Acquista Alpaqa Uno",
+    placeholder_name: "Il tuo nome",
+    placeholder_email: "La tua email (per la risposta)",
+    placeholder_msg: "Scrivi qui la tua richiesta o qualsiasi domanda...",
+    send_btn: "Invia Richiesta",
+    success_msg: "✓ Richiesta inviata! Ti risponderemo presto.",
+    alert_fields: "Inserisci almeno il tuo nome e un messaggio.",
+    alert_endpoint: "Endpoint Formspree non configurato.",
+    alert_error: "Errore nell'invio. Riprova più tardi.",
+    alert_conn: "Errore di connessione. Controlla la tua rete.",
+    sending: "Invio in corso...",
+    sent: "✓ Inviato",
+  },
+  en: {
+    tagline: "The gaming console — simple, powerful, yours",
+    nav_home: "Console",
+    nav_about: "About Us",
+    nav_faq: "FAQ",
+    nav_buy: "Buy",
+    console_gaming: "Gaming Console",
+    ref_price: "reference price",
+    fps_title: "Estimated FPS — High Settings",
+    tech_specs: "Technical specs",
+    in_action: "In action",
+    why_alpaqa: "Why Alpaqa?",
+    perk1_title: "Any controller",
+    perk1_desc: "Plug in your favourite controller and it just works, no setup needed.",
+    perk2_title: "Free online gaming",
+    perk2_desc: "No monthly subscription to play online. Zero. With Alpaqa, multiplayer is included.",
+    perk3_title: "Total freedom",
+    perk3_desc: "Install whatever you want, use any store. No closed ecosystem. It's yours to use however you like.",
+    perk4_title: "Powerful enough for everything",
+    perk4_desc: "Balanced hardware capable of running any game without issues.",
+    about_p1: "We are video game enthusiasts on a budget who just want to have fun — no complications, no subscriptions, no extra services. We build consoles with one single goal: to play everything.",
+    about_p2: "Delivery takes approximately 2–3 weeks as each unit is assembled only after the order is received. You can place an order in the \"BUY\" section.",
+    about_social: "Follow us on social media:",
+    faq1_q: "What does the 599€ price include?",
+    faq1_a: "The console, the power cable, and a joystick are included.",
+    faq2_q: "How long does delivery take?",
+    faq2_a: "Delivery takes approximately 2–3 weeks as each unit is assembled only after the order is received.",
+    faq3_q: "Does it work with my controller?",
+    faq3_a: "Alpaqa is compatible with any USB or Bluetooth controller. It connects and works immediately, no configuration needed.",
+    faq4_q: "Do I need to pay to play online?",
+    faq4_a: "No. Online multiplayer is completely free on Alpaqa. No monthly subscription is required to play with other players.",
+    buy_title: "Buy Alpaqa Uno",
+    placeholder_name: "Your name",
+    placeholder_email: "Your email (for the reply)",
+    placeholder_msg: "Write your request or any question here...",
+    send_btn: "Send Request",
+    success_msg: "✓ Request sent! We'll get back to you soon.",
+    alert_fields: "Please enter at least your name and a message.",
+    alert_endpoint: "Formspree endpoint not configured.",
+    alert_error: "Error sending. Please try again later.",
+    alert_conn: "Connection error. Check your network.",
+    sending: "Sending...",
+    sent: "✓ Sent",
+  },
+  es: {
+    tagline: "La consola para jugar — simple, potente, tuya",
+    nav_home: "Consola",
+    nav_about: "Quiénes Somos",
+    nav_faq: "FAQ",
+    nav_buy: "Comprar",
+    console_gaming: "Consola Gaming",
+    ref_price: "precio de referencia",
+    fps_title: "FPS Estimados — High Settings",
+    tech_specs: "Especificaciones técnicas",
+    in_action: "En acción",
+    why_alpaqa: "¿Por qué Alpaqa?",
+    perk1_title: "Cualquier mando",
+    perk1_desc: "Conecta tu mando favorito y funciona, sin configuraciones.",
+    perk2_title: "Online gratis",
+    perk2_desc: "Sin suscripciones mensuales para jugar online. Cero. Con Alpaqa, el multijugador está incluido.",
+    perk3_title: "Libertad total",
+    perk3_desc: "Instala lo que quieras, usa cualquier tienda. Sin ecosistema cerrado. Es tuya y la usas como quieras.",
+    perk4_title: "Potente para correr todo",
+    perk4_desc: "Hardware equilibrado capaz de ejecutar cualquier juego sin problemas.",
+    about_p1: "Somos apasionados de los videojuegos con poco dinero que solo quieren divertirse, sin complicaciones, sin suscripciones ni servicios extra. Fabricamos consolas cuyo único objetivo es jugar a todo.",
+    about_p2: "Los tiempos de entrega son de aproximadamente 2–3 semanas ya que cada unidad se ensambla solo tras recibir el pedido. Puedes realizar tu pedido en la sección \"COMPRAR\".",
+    about_social: "Síguenos en redes sociales:",
+    faq1_q: "¿Qué incluye el precio de 599€?",
+    faq1_a: "Se incluye la consola, el cable de alimentación y un joystick.",
+    faq2_q: "¿Cuánto tiempo tarda la entrega?",
+    faq2_a: "Los tiempos de entrega son de aproximadamente 2–3 semanas ya que cada unidad se ensambla solo tras recibir el pedido.",
+    faq3_q: "¿Funciona con mi mando?",
+    faq3_a: "Alpaqa es compatible con cualquier mando USB o Bluetooth. Se conecta y funciona de inmediato, sin configuraciones.",
+    faq4_q: "¿Tengo que pagar para jugar online?",
+    faq4_a: "No. El multijugador online es completamente gratuito en Alpaqa. No se requiere ninguna suscripción mensual para jugar con otros jugadores.",
+    buy_title: "Comprar Alpaqa Uno",
+    placeholder_name: "Tu nombre",
+    placeholder_email: "Tu email (para la respuesta)",
+    placeholder_msg: "Escribe aquí tu solicitud o cualquier pregunta...",
+    send_btn: "Enviar Solicitud",
+    success_msg: "✓ ¡Solicitud enviada! Te responderemos pronto.",
+    alert_fields: "Por favor, introduce al menos tu nombre y un mensaje.",
+    alert_endpoint: "Endpoint Formspree no configurado.",
+    alert_error: "Error al enviar. Inténtalo de nuevo más tarde.",
+    alert_conn: "Error de conexión. Comprueba tu red.",
+    sending: "Enviando...",
+    sent: "✓ Enviado",
+  }
+};
+
+let currentLang = 'it';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = i18n[lang];
+
+  // update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  // update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+
+  // update social section separately (contains HTML)
+  const socialEl = document.getElementById('about-social');
+  if (socialEl) {
+    socialEl.innerHTML = `${t.about_social}<br><br>
+      <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">YouTube</a>
+      <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">Instagram</a>
+      <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">Facebook</a>
+      <a href="#" style="color:var(--accent-a);font-weight:700;margin-right:1rem;text-decoration:none;">X</a>
+      <a href="#" style="color:var(--accent-a);font-weight:700;text-decoration:none;">LinkedIn</a>`;
   }
 
-  function toggleSpecs() {
-    const body = document.getElementById('specsBody');
-    const arrow = document.getElementById('specsArrow');
-    body.classList.toggle('open');
-    arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+  document.documentElement.lang = lang;
+}
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleSpecs() {
+  const body = document.getElementById('specsBody');
+  const arrow = document.getElementById('specsArrow');
+  body.classList.toggle('open');
+  arrow.style.transform = body.classList.contains('open') ? 'rotate(180deg)' : '';
+}
+
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const arrow = btn.querySelector('.faq-arrow');
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-arrow').forEach(a => a.style.transform = '');
+  if (!isOpen) {
+    answer.classList.add('open');
+    arrow.style.transform = 'rotate(180deg)';
   }
+}
 
-  function toggleFaq(btn) {
-    const answer = btn.nextElementSibling;
-    const arrow = btn.querySelector('.faq-arrow');
-    const isOpen = answer.classList.contains('open');
-    // close all
-    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
-    document.querySelectorAll('.faq-arrow').forEach(a => a.style.transform = '');
-    // open clicked if it was closed
-    if (!isOpen) {
-      answer.classList.add('open');
-      arrow.style.transform = 'rotate(180deg)';
-    }
-  }
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnjyolgl";
 
-  // -------------------------------------------------------
-  // MODIFICA QUI: incolla il tuo endpoint Formspree tra le virgolette
-  // es. "https://formspree.io/f/xyzabc12"
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnjyolgl";
-  // -------------------------------------------------------
+async function sendEmail() {
+  const t = i18n[currentLang];
+  const name    = document.getElementById('contactName').value.trim();
+  const replyTo = document.getElementById('contactEmail').value.trim();
+  const msg     = document.getElementById('contactMsg').value.trim();
 
-  async function sendEmail() {
-    const name    = document.getElementById('contactName').value.trim();
-    const replyTo = document.getElementById('contactEmail').value.trim();
-    const msg     = document.getElementById('contactMsg').value.trim();
+  if (!name || !msg) { alert(t.alert_fields); return; }
+  if (!FORMSPREE_ENDPOINT) { alert(t.alert_endpoint); return; }
 
-    if (!name || !msg) {
-      alert('Inserisci almeno il tuo nome e un messaggio.');
-      return;
-    }
+  const btn = document.querySelector('.send-btn');
+  btn.textContent = t.sending;
+  btn.disabled = true;
 
-    if (!FORMSPREE_ENDPOINT) {
-      alert('Endpoint Formspree non configurato.');
-      return;
-    }
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name, email: replyTo, message: msg })
+    });
 
-    const btn = document.querySelector('.send-btn');
-    btn.textContent = 'Invio in corso...';
-    btn.disabled = true;
-
-    try {
-      const response = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ name, email: replyTo, message: msg })
-      });
-
-      if (response.ok) {
-        document.getElementById('successMsg').style.display = 'block';
-        document.getElementById('contactName').value = '';
-        document.getElementById('contactEmail').value = '';
-        document.getElementById('contactMsg').value = '';
-        btn.textContent = '✓ Inviato';
-      } else {
-        alert('Errore nell\'invio. Riprova più tardi.');
-        btn.textContent = 'Invia Richiesta';
-        btn.disabled = false;
-      }
-    } catch (e) {
-      alert('Errore di connessione. Controlla la tua rete.');
-      btn.textContent = 'Invia Richiesta';
+    if (response.ok) {
+      document.getElementById('successMsg').style.display = 'block';
+      document.getElementById('contactName').value = '';
+      document.getElementById('contactEmail').value = '';
+      document.getElementById('contactMsg').value = '';
+      btn.textContent = t.sent;
+    } else {
+      alert(t.alert_error);
+      btn.textContent = i18n[currentLang].send_btn;
       btn.disabled = false;
     }
+  } catch (e) {
+    alert(t.alert_conn);
+    btn.textContent = i18n[currentLang].send_btn;
+    btn.disabled = false;
   }
+}
+
+// init default language
+setLang('it');
 </script>
 </body>
 </html>
